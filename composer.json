@@ -1,0 +1,26 @@
+{
+    "name": "spe/link-validator-bundle",
+    "description": "Symfony2 bundle for validating links (e.g. YouTube, Vimeo links)",
+    "homepage": "https://github.com/loonkwil/link-validator-bundle",
+    "type": "symfony-bundle",
+    "repositories": [
+        {
+            "type": "git",
+            "url": "git://github.com/loonkwil/link-validator-bundle.git"
+        }
+    ],
+    "authors": [
+        {
+            "name": "Peter Simon",
+            "email": "simonpepe@gmail.com"
+        }
+    ],
+    "require":      {
+        "php": ">=5.3.3",
+        "symfony/validator": "2.*"
+    },
+    "autoload": {
+        "psr-0": { "SPE\\LinkValidatorBundle": "" }
+    },
+    "target-dir": "SPE/LinkValidatorBundle"
+}
