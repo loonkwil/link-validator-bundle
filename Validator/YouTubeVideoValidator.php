@@ -2,7 +2,7 @@
 
 namespace SPE\LinkValidatorBundle\Validator;
 
-class YouTubeLinkValidator extends LinkValidator
+class YouTubeVideoValidator extends LinkValidator
 {
     protected $pattern = '/
         ^

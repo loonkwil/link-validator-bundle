@@ -33,9 +33,9 @@ use SPE\LinkValidatorBundle\Validator as LinkAssert;
 
 class AcmeEntity {
   /**
-   * @LinkAssert\YouTubeLink(message="...")
+   * @LinkAssert\YouTubeVideo(message="...")
    */
-  protected $youtube_link;
+  protected $youtube_video;
 
   // ...
 }
@@ -43,5 +43,5 @@ class AcmeEntity {
 
 ## Available asserts
 
- * YouTubeLink
- * VimeoLink
+ * YouTubeVideo
+ * VimeoVideo

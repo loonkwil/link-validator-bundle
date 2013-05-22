@@ -2,7 +2,7 @@
 
 namespace SPE\LinkValidatorBundle\Validator;
 
-class VimeoLinkValidator extends LinkValidator
+class VimeoVideoValidator extends LinkValidator
 {
     protected $pattern = '/
         ^

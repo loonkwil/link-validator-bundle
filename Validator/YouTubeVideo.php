@@ -7,9 +7,9 @@ use Symfony\Component\Validator\Constraint;
 /**
  * @Annotation
  */
-class VimeoLink extends Constraint
+class YouTubeVideo extends Constraint
 {
-    public $message = 'Please enter a Vimeo link';
+    public $message = 'Please enter a YouTube link';
 
     public function validatedBy()
     {

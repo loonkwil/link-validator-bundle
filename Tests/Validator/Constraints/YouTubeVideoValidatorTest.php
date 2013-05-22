@@ -2,10 +2,10 @@
 
 namespace SPE\LinkValidatorBundle\Tests\Validator\Constraints;
 
-use SPE\LinkValidatorBundle\Validator\YouTubeLink;
-use SPE\LinkValidatorBundle\Validator\YouTubeLinkValidator;
+use SPE\LinkValidatorBundle\Validator\YouTubeVideo;
+use SPE\LinkValidatorBundle\Validator\YouTubeVideoValidator;
 
-class YouTubeLinkValidatorTest extends \PHPUnit_Framework_TestCase
+class YouTubeVideoValidatorTest extends \PHPUnit_Framework_TestCase
 {
     protected $context;
     protected $validator;
@@ -18,10 +18,10 @@ class YouTubeLinkValidatorTest extends \PHPUnit_Framework_TestCase
             array(), array(), '', false
         );
 
-        $this->validator = new YouTubeLinkValidator();
+        $this->validator = new YouTubeVideoValidator();
         $this->validator->initialize($this->context);
 
-        $this->constraint = new YouTubeLink(array('message' => 'myMessage'));
+        $this->constraint = new YouTubeVideo(array('message' => 'myMessage'));
     }
 
     protected function tearDown()
@@ -72,54 +72,54 @@ class YouTubeLinkValidatorTest extends \PHPUnit_Framework_TestCase
         $this->validate(new \stdClass());
     }
 
-    public function testValidYouTubeLink()
+    public function testValidYouTubeVideo()
     {
         $this->shouldBeValid('youtube.com/watch?v=m2s1kvWk89E');
     }
 
-    public function testValidYouTubeLinkWithWww()
+    public function testValidYouTubeVideoWithWww()
     {
         $this->shouldBeValid('www.youtube.com/watch?v=m2s1kvWk89E');
     }
 
-    public function testValidYouTubeLinkWithHttp()
+    public function testValidYouTubeVideoWithHttp()
     {
         $this->shouldBeValid('http://youtube.com/watch?v=m2s1kvWk89E');
     }
 
-    public function testValidYouTubeLinkWithHttps()
+    public function testValidYouTubeVideoWithHttps()
     {
         $this->shouldBeValid('https://youtube.com/watch?v=m2s1kvWk89E');
     }
 
-    public function testValidYouTubeLinkWithWwwAndHttp()
+    public function testValidYouTubeVideoWithWwwAndHttp()
     {
         $this->shouldBeValid('http://www.youtube.com/watch?v=m2s1kvWk89E');
     }
 
-    public function testValidYouTubeLinkWithQueryParams()
+    public function testValidYouTubeVideoWithQueryParams()
     {
         $this->shouldBeValid(
             'http://www.youtube.com/watch?v=qguJbbgFHgc&feature=share'
         );
     }
 
-    public function testValidEmbedYouTubeLink()
+    public function testValidEmbedYouTubeVideo()
     {
         $this->shouldBeValid('http://www.youtube.com/embed/m2s1kvWk89E');
     }
 
-    public function testValidShortYouTubeLink()
+    public function testValidShortYouTubeVideo()
     {
         $this->shouldBeValid('http://youtu.be/m2s1kvWk89E');
     }
 
-    public function testInvalidYouTubeLink()
+    public function testInvalidYouTubeVideo()
     {
         $this->shouldNotBeValid('http://youtu.be/m2s1kvWk89E2');
     }
 
-    public function testNotYouTubeLink()
+    public function testNotYouTubeVideo()
     {
         $this->shouldNotBeValid('http://google.com');
     }

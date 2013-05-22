@@ -2,10 +2,10 @@
 
 namespace SPE\LinkValidatorBundle\Tests\Validator\Constraints;
 
-use SPE\LinkValidatorBundle\Validator\VimeoLink;
-use SPE\LinkValidatorBundle\Validator\VimeoLinkValidator;
+use SPE\LinkValidatorBundle\Validator\VimeoVideo;
+use SPE\LinkValidatorBundle\Validator\VimeoVideoValidator;
 
-class VimeoLinkValidatorTest extends \PHPUnit_Framework_TestCase
+class VimeoVideoValidatorTest extends \PHPUnit_Framework_TestCase
 {
     protected $context;
     protected $validator;
@@ -18,10 +18,10 @@ class VimeoLinkValidatorTest extends \PHPUnit_Framework_TestCase
             array(), array(), '', false
         );
 
-        $this->validator = new VimeoLinkValidator();
+        $this->validator = new VimeoVideoValidator();
         $this->validator->initialize($this->context);
 
-        $this->constraint = new VimeoLink(array('message' => 'myMessage'));
+        $this->constraint = new VimeoVideo(array('message' => 'myMessage'));
     }
 
     protected function tearDown()
@@ -72,37 +72,37 @@ class VimeoLinkValidatorTest extends \PHPUnit_Framework_TestCase
         $this->validate(new \stdClass());
     }
 
-    public function testValidVimeoLink()
+    public function testValidVimeoVideo()
     {
         $this->shouldBeValid('vimeo.com/58024671');
     }
 
-    public function testValidVimeoLinkWithWww()
+    public function testValidVimeoVideoWithWww()
     {
         $this->shouldBeValid('www.vimeo.com/58024671');
     }
 
-    public function testValidVimeoLinkWithHttp()
+    public function testValidVimeoVideoWithHttp()
     {
         $this->shouldBeValid('http://vimeo.com/58024671');
     }
 
-    public function testValidVimeoLinkWithHttps()
+    public function testValidVimeoVideoWithHttps()
     {
         $this->shouldBeValid('https://vimeo.com/58024671');
     }
 
-    public function testValidVimeoLinkWithWwwAndHttp()
+    public function testValidVimeoVideoWithWwwAndHttp()
     {
         $this->shouldBeValid('http://www.vimeo.com/58024671');
     }
 
-    public function testInvalidVimeoLink()
+    public function testInvalidVimeoVideo()
     {
         $this->shouldNotBeValid('http://www.vimeo.com/a8024671');
     }
 
-    public function testNotVimeoLink()
+    public function testNotVimeoVideo()
     {
         $this->shouldNotBeValid('http://google.com');
     }
