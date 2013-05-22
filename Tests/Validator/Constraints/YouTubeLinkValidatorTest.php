@@ -9,35 +9,59 @@ class YouTubeLinkValidatorTest extends \PHPUnit_Framework_TestCase
 {
     protected $context;
     protected $validator;
+    protected $constraint;
 
     protected function setUp()
     {
-        $this->context = $this->getMock('Symfony\Component\Validator\ExecutionContext', array(), array(), '', false);
+        $this->context = $this->getMock(
+            'Symfony\Component\Validator\ExecutionContext',
+            array(), array(), '', false
+        );
+
         $this->validator = new YouTubeLinkValidator();
         $this->validator->initialize($this->context);
+
+        $this->constraint = new YouTubeLink(array('message' => 'myMessage'));
     }
 
     protected function tearDown()
     {
         $this->context = null;
         $this->validator = null;
+        $this->constraint = null;
+    }
+
+    protected function validate($value)
+    {
+        $this->validator->validate($value, $this->constraint);
+    }
+
+    protected function shouldBeValid($value)
+    {
+        $this->context->expects($this->never())
+            ->method('addViolation');
+
+        $this->validate($value);
+    }
+
+    protected function shouldNotBeValid($value)
+    {
+        $this->context->expects($this->once())
+            ->method('addViolation')
+            ->with('myMessage');
+
+        $this->validate($value);
     }
 
 
     public function testNullIsValid()
     {
-        $this->context->expects($this->never())
-            ->method('addViolation');
-
-        $this->validator->validate(null, new YouTubeLink());
+        $this->shouldBeValid(null);
     }
 
     public function testEmptyStringIsValid()
     {
-        $this->context->expects($this->never())
-            ->method('addViolation');
-
-        $this->validator->validate('', new YouTubeLink());
+        $this->shouldBeValid('');
     }
 
     /**
@@ -45,104 +69,58 @@ class YouTubeLinkValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testExpectsStringCompatibleType()
     {
-        $this->validator->validate(new \stdClass(), new YouTubeLink());
+        $this->validate(new \stdClass());
     }
 
     public function testValidYouTubeLink()
     {
-        $this->context->expects($this->never())
-            ->method('addViolation');
-
-        $constraint = new YouTubeLink();
-        $this->validator->validate('youtube.com/watch?v=m2s1kvWk89E', $constraint);
+        $this->shouldBeValid('youtube.com/watch?v=m2s1kvWk89E');
     }
 
     public function testValidYouTubeLinkWithWww()
     {
-        $this->context->expects($this->never())
-            ->method('addViolation');
-
-        $constraint = new YouTubeLink();
-        $this->validator->validate('www.youtube.com/watch?v=m2s1kvWk89E', $constraint);
+        $this->shouldBeValid('www.youtube.com/watch?v=m2s1kvWk89E');
     }
 
     public function testValidYouTubeLinkWithHttp()
     {
-        $this->context->expects($this->never())
-            ->method('addViolation');
-
-        $constraint = new YouTubeLink();
-        $this->validator->validate('http://youtube.com/watch?v=m2s1kvWk89E', $constraint);
+        $this->shouldBeValid('http://youtube.com/watch?v=m2s1kvWk89E');
     }
 
     public function testValidYouTubeLinkWithHttps()
     {
-        $this->context->expects($this->never())
-            ->method('addViolation');
-
-        $constraint = new YouTubeLink();
-        $this->validator->validate('https://youtube.com/watch?v=m2s1kvWk89E', $constraint);
+        $this->shouldBeValid('https://youtube.com/watch?v=m2s1kvWk89E');
     }
 
     public function testValidYouTubeLinkWithWwwAndHttp()
     {
-        $this->context->expects($this->never())
-            ->method('addViolation');
-
-        $constraint = new YouTubeLink();
-        $this->validator->validate('http://www.youtube.com/watch?v=m2s1kvWk89E', $constraint);
+        $this->shouldBeValid('http://www.youtube.com/watch?v=m2s1kvWk89E');
     }
 
     public function testValidYouTubeLinkWithQueryParams()
     {
-        $this->context->expects($this->never())
-            ->method('addViolation');
-
-        $constraint = new YouTubeLink();
-        $this->validator->validate('http://www.youtube.com/watch?v=qguJbbgFHgc&feature=share', $constraint);
+        $this->shouldBeValid(
+            'http://www.youtube.com/watch?v=qguJbbgFHgc&feature=share'
+        );
     }
 
     public function testValidEmbedYouTubeLink()
     {
-        $this->context->expects($this->never())
-            ->method('addViolation');
-
-        $constraint = new YouTubeLink();
-        $this->validator->validate('http://www.youtube.com/embed/m2s1kvWk89E', $constraint);
+        $this->shouldBeValid('http://www.youtube.com/embed/m2s1kvWk89E');
     }
 
     public function testValidShortYouTubeLink()
     {
-        $this->context->expects($this->never())
-            ->method('addViolation');
-
-        $constraint = new YouTubeLink();
-        $this->validator->validate('http://youtu.be/m2s1kvWk89E', $constraint);
+        $this->shouldBeValid('http://youtu.be/m2s1kvWk89E');
     }
 
     public function testInvalidYouTubeLink()
     {
-        $constraint = new YouTubeLink(array(
-            'message' => 'myMessage',
-        ));
-
-        $this->context->expects($this->once())
-            ->method('addViolation')
-            ->with('myMessage');
-
-        $this->validator->validate('http://youtu.be/m2s1kvWk89E2', $constraint);
+        $this->shouldNotBeValid('http://youtu.be/m2s1kvWk89E2');
     }
 
     public function testNotYouTubeLink()
     {
-        $constraint = new YouTubeLink(array(
-            'message' => 'myMessage',
-        ));
-
-        $this->context->expects($this->once())
-            ->method('addViolation')
-            ->with('myMessage');
-
-        $this->validator->validate('http://google.com', $constraint);
+        $this->shouldNotBeValid('http://google.com');
     }
 }

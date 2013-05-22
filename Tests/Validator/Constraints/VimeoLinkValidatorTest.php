@@ -9,35 +9,59 @@ class VimeoLinkValidatorTest extends \PHPUnit_Framework_TestCase
 {
     protected $context;
     protected $validator;
+    protected $constraint;
 
     protected function setUp()
     {
-        $this->context = $this->getMock('Symfony\Component\Validator\ExecutionContext', array(), array(), '', false);
+        $this->context = $this->getMock(
+            'Symfony\Component\Validator\ExecutionContext',
+            array(), array(), '', false
+        );
+
         $this->validator = new VimeoLinkValidator();
         $this->validator->initialize($this->context);
+
+        $this->constraint = new VimeoLink(array('message' => 'myMessage'));
     }
 
     protected function tearDown()
     {
         $this->context = null;
         $this->validator = null;
+        $this->constraint = null;
+    }
+
+    protected function validate($value)
+    {
+        $this->validator->validate($value, $this->constraint);
+    }
+
+    protected function shouldBeValid($value)
+    {
+        $this->context->expects($this->never())
+            ->method('addViolation');
+
+        $this->validate($value);
+    }
+
+    protected function shouldNotBeValid($value)
+    {
+        $this->context->expects($this->once())
+            ->method('addViolation')
+            ->with('myMessage');
+
+        $this->validate($value);
     }
 
 
     public function testNullIsValid()
     {
-        $this->context->expects($this->never())
-            ->method('addViolation');
-
-        $this->validator->validate(null, new VimeoLink());
+        $this->shouldBeValid(null);
     }
 
     public function testEmptyStringIsValid()
     {
-        $this->context->expects($this->never())
-            ->method('addViolation');
-
-        $this->validator->validate('', new VimeoLink());
+        $this->shouldBeValid('');
     }
 
     /**
@@ -45,77 +69,41 @@ class VimeoLinkValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testExpectsStringCompatibleType()
     {
-        $this->validator->validate(new \stdClass(), new VimeoLink());
+        $this->validate(new \stdClass());
     }
 
     public function testValidVimeoLink()
     {
-        $this->context->expects($this->never())
-            ->method('addViolation');
-
-        $constraint = new VimeoLink();
-        $this->validator->validate('vimeo.com/58024671', $constraint);
+        $this->shouldBeValid('vimeo.com/58024671');
     }
 
     public function testValidVimeoLinkWithWww()
     {
-        $this->context->expects($this->never())
-            ->method('addViolation');
-
-        $constraint = new VimeoLink();
-        $this->validator->validate('www.vimeo.com/58024671', $constraint);
+        $this->shouldBeValid('www.vimeo.com/58024671');
     }
 
     public function testValidVimeoLinkWithHttp()
     {
-        $this->context->expects($this->never())
-            ->method('addViolation');
-
-        $constraint = new VimeoLink();
-        $this->validator->validate('http://vimeo.com/58024671', $constraint);
+        $this->shouldBeValid('http://vimeo.com/58024671');
     }
 
     public function testValidVimeoLinkWithHttps()
     {
-        $this->context->expects($this->never())
-            ->method('addViolation');
-
-        $constraint = new VimeoLink();
-        $this->validator->validate('https://vimeo.com/58024671', $constraint);
+        $this->shouldBeValid('https://vimeo.com/58024671');
     }
 
     public function testValidVimeoLinkWithWwwAndHttp()
     {
-        $this->context->expects($this->never())
-            ->method('addViolation');
-
-        $constraint = new VimeoLink();
-        $this->validator->validate('http://www.vimeo.com/58024671', $constraint);
+        $this->shouldBeValid('http://www.vimeo.com/58024671');
     }
 
     public function testInvalidVimeoLink()
     {
-        $constraint = new VimeoLink(array(
-            'message' => 'myMessage',
-        ));
-
-        $this->context->expects($this->once())
-            ->method('addViolation')
-            ->with('myMessage');
-
-        $this->validator->validate('http://www.vimeo.com/a8024671', $constraint);
+        $this->shouldNotBeValid('http://www.vimeo.com/a8024671');
     }
 
     public function testNotVimeoLink()
     {
-        $constraint = new VimeoLink(array(
-            'message' => 'myMessage',
-        ));
-
-        $this->context->expects($this->once())
-            ->method('addViolation')
-            ->with('myMessage');
-
-        $this->validator->validate('http://google.com', $constraint);
+        $this->shouldNotBeValid('http://google.com');
     }
 }
