@@ -45,3 +45,4 @@ class AcmeEntity {
 
  * YouTubeVideo
  * VimeoVideo
+ * FacebookLink
