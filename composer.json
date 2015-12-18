@@ -1,6 +1,7 @@
 {
     "name": "spe/link-validator-bundle",
     "description": "Symfony2 bundle for validating links (e.g. YouTube, Vimeo links)",
+    "version": "1.0.0",
     "homepage": "https://github.com/loonkwil/link-validator-bundle",
     "type": "symfony-bundle",
     "repositories": [
