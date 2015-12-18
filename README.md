@@ -4,7 +4,7 @@
 
 ## Install
 
-### Symfony >=2.5, ^3.0
+### Symfony >=2.5
 
 composer.json:
 ```json
