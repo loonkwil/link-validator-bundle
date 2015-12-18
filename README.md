@@ -4,6 +4,25 @@
 
 ## Install
 
+### Symfony >=2.5, ^3.0
+
+composer.json:
+```json
+{
+  "repositories": [
+      {
+          "type": "vcs",
+          "url": "https://github.com/loonkwil/link-validator-bundle.git"
+      },
+  ],
+  "require": {
+      "spe/link-validator-bundle": "~2.0.0",
+  }
+}
+```
+
+### Symfony <2.5
+
 composer.json:
 ```json
 {
