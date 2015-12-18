@@ -14,7 +14,7 @@ class YouTubeVideoValidatorTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->context = $this->getMock(
-            'Symfony\Component\Validator\ExecutionContext',
+            'Symfony\Component\Validator\Context\ExecutionContext',
             array(), array(), '', false
         );
 
