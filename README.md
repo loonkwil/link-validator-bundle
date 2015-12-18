@@ -14,7 +14,7 @@ composer.json:
       },
   ],
   "require": {
-      "spe/link-validator-bundle": "dev-master",
+      "spe/link-validator-bundle": "~1.0.0",
   }
 }
 ```
